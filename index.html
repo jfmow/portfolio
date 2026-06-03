@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="en" data-palette="sunset" data-hero="split" data-projects="cards" data-motion="on">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>James Mowat — Developer & Cyclist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    rel="stylesheet" />
+  <style>
+    /* ============ TOKENS ============ */
+    :root {
+      --bg: #120a08;
+      --bg-2: #1a0f0b;
+      --ink: #fdf3ee;
+      --ink-soft: #e8cdbf;
+      --ink-dim: #b89384;
+      --line: rgba(255, 228, 210, .12);
+      --card: rgba(34, 20, 16, .55);
+      --card-solid: #1d110d;
+      --g1: #fc4c02;
+      /* strava orange */
+      --g2: #ff0a54;
+      /* hot pink */
+      --g3: #ffb02e;
+      /* amber */
+      --glow: rgba(252, 76, 2, .45);
+      --grad: linear-gradient(105deg, var(--g1), var(--g2));
+      --grad-soft: linear-gradient(105deg, var(--g3), var(--g2));
+      --font-d: "Space Grotesk", system-ui, sans-serif;
+      --font-b: "Manrope", system-ui, sans-serif;
+      --font-m: "JetBrains Mono", ui-monospace, monospace;
+      --maxw: 1180px;
+    }
+
+    /* palette variants (driven by Tweaks) */
+    html[data-palette="magma"] {
+      --bg: #0e0608;
+      --bg-2: #170a0d;
+      --g1: #ff2d55;
+      --g2: #b5179e;
+      --g3: #ff7b00;
+      --glow: rgba(181, 23, 158, .45);
+      --ink: #fdeef4;
+      --ink-soft: #f0cdd9;
+      --ink-dim: #c191a4;
+    }
+
+    html[data-palette="coral"] {
+      --bg: #1a0d0a;
+      --bg-2: #241310;
+      --g1: #ff5e3a;
+      --g2: #ff2d7e;
+      --g3: #ffd166;
+      --glow: rgba(255, 94, 58, .4);
+    }
+
+    html[data-palette="daylight"] {
+      --bg: #fff7f2;
+      --bg-2: #ffeee4;
+      --ink: #2a140c;
+      --ink-soft: #6b3a28;
+      --ink-dim: #9a6650;
+      --line: rgba(120, 40, 10, .14);
+      --card: rgba(255, 255, 255, .7);
+      --card-solid: #fff;
+      --glow: rgba(252, 76, 2, .28);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-b);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none
+    }
+
+    ::selection {
+      background: var(--g2);
+      color: #fff
+    }
+
+    /* ============ ANIMATED GRADIENT FIELD ============ */
+    .aurora {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      overflow: hidden;
+      background: var(--bg)
+    }
+
+    .aurora::before,
+    .aurora::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(70px);
+      opacity: .85;
+    }
+
+    .aurora .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      mix-blend-mode: screen
+    }
+
+    .b1 {
+      width: 60vw;
+      height: 60vw;
+      background: radial-gradient(circle, var(--g1), transparent 65%);
+      top: -18vw;
+      left: -12vw;
+      animation: drift1 22s ease-in-out infinite
+    }
+
+    .b2 {
+      width: 52vw;
+      height: 52vw;
+      background: radial-gradient(circle, var(--g2), transparent 65%);
+      top: 8vw;
+      right: -16vw;
+      animation: drift2 26s ease-in-out infinite
+    }
+
+    .b3 {
+      width: 46vw;
+      height: 46vw;
+      background: radial-gradient(circle, var(--g3), transparent 62%);
+      bottom: -14vw;
+      left: 18vw;
+      animation: drift3 30s ease-in-out infinite
+    }
+
+    html[data-palette="daylight"] .aurora .blob {
+      opacity: .5
+    }
+
+    @keyframes drift1 {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1)
+      }
+
+      50% {
+        transform: translate(8vw, 6vw) scale(1.15)
+      }
+    }
+
+    @keyframes drift2 {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1)
+      }
+
+      50% {
+        transform: translate(-7vw, 9vw) scale(1.2)
+      }
+    }
+
+    @keyframes drift3 {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1)
+      }
+
+      50% {
+        transform: translate(6vw, -7vw) scale(1.1)
+      }
+    }
+
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: .05;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    html[data-motion="off"] .aurora .blob {
+      animation: none
+    }
+
+    /* ============ LAYOUT SHELL ============ */
+    .wrap {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 0 28px
+    }
+
+    section {
+      position: relative
+    }
+
+    /* ============ NAV ============ */
+    header.nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 32px;
+      transition: .4s ease;
+    }
+
+    header.nav.scrolled {
+      background: color-mix(in srgb, var(--bg) 72%, transparent);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+      padding: 12px 32px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-family: var(--font-d);
+      font-weight: 700;
+      letter-spacing: -.02em;
+      font-size: 18px
+    }
+
+    .brand .mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 9px;
+      background: var(--grad);
+      display: grid;
+      place-items: center;
+      font-family: var(--font-m);
+      font-weight: 700;
+      font-size: 13px;
+      color: #fff;
+      box-shadow: 0 6px 18px -4px var(--glow)
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .nav-links a {
+      font-size: 14.5px;
+      font-weight: 600;
+      color: var(--ink-soft);
+      padding: 9px 15px;
+      border-radius: 99px;
+      transition: .2s
+    }
+
+    .nav-links a:hover {
+      color: var(--ink);
+      background: rgba(255, 255, 255, .06)
+    }
+
+    .nav-cta {
+      background: var(--grad);
+      color: #fff !important;
+      box-shadow: 0 8px 22px -8px var(--glow)
+    }
+
+    .nav-cta:hover {
+      background: var(--grad) !important;
+      filter: brightness(1.07)
+    }
+
+    @media(max-width:720px) {
+      .nav-links a:not(.nav-cta) {
+        display: none
+      }
+    }
+
+    /* ============ HERO ============ */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 130px 0 70px
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 54px;
+      align-items: center;
+      width: 100%
+    }
+
+    html[data-hero="center"] .hero-grid {
+      grid-template-columns: 1fr;
+      text-align: center;
+      justify-items: center;
+      gap: 40px
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      font-family: var(--font-m);
+      font-size: 12.5px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--ink-dim);
+      margin-bottom: 24px
+    }
+
+    .eyebrow .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #21d07a;
+      box-shadow: 0 0 0 4px rgba(33, 208, 122, .18);
+      animation: pulse 2s infinite
+    }
+
+    @keyframes pulse {
+      50% {
+        box-shadow: 0 0 0 7px rgba(33, 208, 122, 0)
+      }
+    }
+
+    h1.name {
+      font-family: var(--font-d);
+      font-weight: 700;
+      letter-spacing: -.035em;
+      line-height: .92;
+      font-size: clamp(56px, 9vw, 118px);
+      margin-bottom: 22px
+    }
+
+    h1.name .grad {
+      background: var(--grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent
+    }
+
+    .tagline {
+      font-size: clamp(19px, 2.4vw, 27px);
+      font-weight: 500;
+      color: var(--ink-soft);
+      max-width: 30ch;
+      line-height: 1.32;
+      margin-bottom: 14px
+    }
+
+    html[data-hero="center"] .tagline {
+      margin-inline: auto
+    }
+
+    .tagline em {
+      font-style: normal;
+      color: var(--ink);
+      position: relative;
+      white-space: nowrap
+    }
+
+    .tagline em::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 2px;
+      height: 8px;
+      background: var(--grad-soft);
+      opacity: .4;
+      z-index: -1;
+      border-radius: 3px
+    }
+
+    .sub {
+      color: var(--ink-dim);
+      max-width: 46ch;
+      font-size: 16px;
+      margin-bottom: 32px
+    }
+
+    html[data-hero="center"] .sub {
+      margin-inline: auto
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 13px;
+      flex-wrap: wrap
+    }
+
+    html[data-hero="center"] .cta-row {
+      justify-content: center
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-b);
+      font-weight: 700;
+      font-size: 15px;
+      padding: 14px 24px;
+      border-radius: 99px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: .25s ease;
+      white-space: nowrap
+    }
+
+    .btn-primary {
+      background: var(--grad);
+      color: #fff;
+      box-shadow: 0 14px 32px -12px var(--glow)
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px -12px var(--glow)
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, .04);
+      border-color: var(--line);
+      color: var(--ink)
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, .09);
+      transform: translateY(-2px)
+    }
+
+    .btn svg {
+      width: 17px;
+      height: 17px
+    }
+
+    /* stat chips */
+    .chips {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 34px
+    }
+
+    html[data-hero="center"] .chips {
+      justify-content: center
+    }
+
+    .chip {
+      font-family: var(--font-m);
+      font-size: 12.5px;
+      color: var(--ink-soft);
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 8px 13px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(6px)
+    }
+
+    .chip b {
+      color: var(--ink);
+      font-weight: 700
+    }
+
+    .chip .k {
+      color: var(--ink-dim)
+    }
+
+    /* hero photo */
+    .hero-photo {
+      position: relative;
+      aspect-ratio: 4/5;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .7);
+      transform: rotate(2deg);
+      transition: transform .5s ease
+    }
+
+    .hero-photo:hover {
+      transform: rotate(0deg)
+    }
+
+    .hero-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 60% 40%
+    }
+
+    .hero-photo::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 40%, rgba(18, 10, 8, .55));
+      mix-blend-mode: multiply
+    }
+
+    .photo-tag {
+      position: absolute;
+      left: 14px;
+      bottom: 14px;
+      z-index: 2;
+      font-family: var(--font-m);
+      font-size: 11px;
+      color: #fff;
+      background: rgba(0, 0, 0, .4);
+      backdrop-filter: blur(6px);
+      padding: 7px 11px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, .18)
+    }
+
+    html[data-hero="center"] .hero-photo {
+      max-width: 420px;
+      transform: rotate(0)
+    }
+
+    /* ============ SECTION HEADINGS ============ */
+    .sec {
+      padding: 96px 0
+    }
+
+    .sec-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 44px;
+      flex-wrap: wrap
+    }
+
+    .sec-kicker {
+      font-family: var(--font-m);
+      font-size: 13px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--g1);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .sec-kicker::before {
+      content: "";
+      width: 26px;
+      height: 2px;
+      background: var(--grad);
+      border-radius: 2px
+    }
+
+    .sec-title {
+      font-family: var(--font-d);
+      font-weight: 700;
+      letter-spacing: -.03em;
+      font-size: clamp(34px, 5vw, 56px);
+      line-height: 1
+    }
+
+    .sec-desc {
+      color: var(--ink-dim);
+      max-width: 42ch;
+      font-size: 16.5px;
+      margin-top: 18px
+    }
+
+    /* ============ STRAVA ============ */
+    .strava-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.05fr;
+      gap: 34px;
+      align-items: stretch
+    }
+
+    @media(max-width:880px) {
+      .strava-grid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .strava-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center
+    }
+
+    .strava-meta {
+      display: flex;
+      gap: 26px;
+      margin: 28px 0 30px;
+      flex-wrap: wrap
+    }
+
+    .metric {
+      display: flex;
+      flex-direction: column;
+      gap: 3px
+    }
+
+    .metric .v {
+      font-family: var(--font-d);
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent
+    }
+
+    .metric .l {
+      font-family: var(--font-m);
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--ink-dim)
+    }
+
+    /* live card */
+    .live {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      overflow: hidden;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 30px 70px -34px rgba(0, 0, 0, .8)
+    }
+
+    .live-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--line)
+    }
+
+    .live-ath {
+      display: flex;
+      align-items: center;
+      gap: 12px
+    }
+
+    .live-av {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--grad);
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, .2)
+    }
+
+    .live-av img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover
+    }
+
+    .live-ath .nm {
+      font-weight: 700;
+      font-size: 15px
+    }
+
+    .live-ath .sub2 {
+      font-family: var(--font-m);
+      font-size: 11.5px;
+      color: var(--ink-dim)
+    }
+
+    .live-badge {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-family: var(--font-m);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      color: #fff;
+      background: rgba(255, 10, 84, .18);
+      border: 1px solid rgba(255, 10, 84, .4);
+      padding: 6px 11px;
+      border-radius: 99px
+    }
+
+    .live-badge .rec {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ff2d55;
+      animation: pulse2 1.3s infinite
+    }
+
+    @keyframes pulse2 {
+      50% {
+        opacity: .25
+      }
+    }
+
+    .live-title {
+      padding: 16px 20px 4px;
+      font-weight: 700;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 9px
+    }
+
+    .live-title .ico {
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      background: var(--grad);
+      display: grid;
+      place-items: center
+    }
+
+    .live-title .ico svg {
+      width: 15px;
+      height: 15px;
+      color: #fff
+    }
+
+    .live-where {
+      padding: 0 20px 14px;
+      font-family: var(--font-m);
+      font-size: 12px;
+      color: var(--ink-dim)
+    }
+
+    .live-map {
+      height: 120px;
+      margin: 0 20px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+      background: repeating-linear-gradient(45deg, rgba(255, 255, 255, .025) 0 9px, transparent 9px 18px), var(--bg-2)
+    }
+
+    .live-map svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%
+    }
+
+    .route-path {
+      fill: none;
+      stroke: url(#routeGrad);
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 6px var(--glow));
+      stroke-dasharray: 1200;
+      stroke-dashoffset: 1200;
+      animation: trace 6s ease forwards
+    }
+
+    @keyframes trace {
+      to {
+        stroke-dashoffset: 0
+      }
+    }
+
+    .route-dot {
+      fill: #fff;
+      filter: drop-shadow(0 0 5px #fff)
+    }
+
+    .live-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--line);
+      margin: 16px 0 0;
+      border-top: 1px solid var(--line)
+    }
+
+    .lstat {
+      background: var(--card-solid);
+      padding: 15px 14px;
+      text-align: center
+    }
+
+    .lstat .v {
+      font-family: var(--font-d);
+      font-weight: 700;
+      font-size: 21px;
+      letter-spacing: -.02em;
+      transition: .2s
+    }
+
+    .lstat .l {
+      font-family: var(--font-m);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: var(--ink-dim);
+      margin-top: 4px
+    }
+
+    html[data-palette="daylight"] .lstat {
+      background: #fff
+    }
+
+    /* ============ PROJECTS ============ */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px
+    }
+
+    html[data-projects="list"] .projects-grid {
+      grid-template-columns: 1fr;
+      gap: 14px
+    }
+
+    @media(max-width:880px) {
+      .projects-grid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .proj {
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      overflow: hidden;
+      transition: .35s cubic-bezier(.2, .8, .2, 1);
+      backdrop-filter: blur(10px);
+      cursor: pointer
+    }
+
+    .proj::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--grad);
+      opacity: 0;
+      transition: .35s;
+      z-index: 0
+    }
+
+    .proj::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 3px;
+      width: 0;
+      background: var(--grad);
+      transition: .4s ease
+    }
+
+    .proj:hover {
+      transform: translateY(-6px);
+      border-color: transparent;
+      box-shadow: 0 30px 60px -30px var(--glow)
+    }
+
+    .proj:hover::after {
+      width: 100%
+    }
+
+    .proj>* {
+      position: relative;
+      z-index: 1
+    }
+
+    .proj-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between
+    }
+
+    .proj-idx {
+      font-family: var(--font-m);
+      font-size: 12px;
+      color: var(--ink-dim)
+    }
+
+    .proj-arrow {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      display: grid;
+      place-items: center;
+      transition: .3s
+    }
+
+    .proj-arrow svg {
+      width: 15px;
+      height: 15px;
+      transition: .3s
+    }
+
+    .proj:hover .proj-arrow {
+      background: #fff;
+      border-color: #fff
+    }
+
+    .proj:hover .proj-arrow svg {
+      color: #120a08;
+      transform: rotate(-45deg)
+    }
+
+    .proj-name {
+      font-family: var(--font-d);
+      font-weight: 700;
+      font-size: 25px;
+      letter-spacing: -.02em
+    }
+
+    .proj-desc {
+      color: var(--ink-dim);
+      font-size: 14.5px;
+      line-height: 1.5
+    }
+
+    .proj:hover .proj-desc {
+      color: var(--ink-soft)
+    }
+
+    .proj-tags {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      margin-top: auto
+    }
+
+    .tag {
+      font-family: var(--font-m);
+      font-size: 11px;
+      color: var(--ink-soft);
+      background: rgba(255, 255, 255, .05);
+      border: 1px solid var(--line);
+      padding: 5px 9px;
+      border-radius: 7px
+    }
+
+    html[data-projects="list"] .proj {
+      flex-direction: row;
+      align-items: center;
+      gap: 26px;
+      padding: 22px 26px
+    }
+
+    html[data-projects="list"] .proj-main {
+      flex: 1
+    }
+
+    html[data-projects="list"] .proj-tags {
+      margin-top: 10px
+    }
+
+    html[data-projects="list"] .proj-idx {
+      font-size: 30px;
+      font-family: var(--font-d);
+      font-weight: 700;
+      color: var(--ink);
+      opacity: .25;
+      min-width: 50px
+    }
+
+    /* ============ ABOUT ============ */
+    .about-grid {
+      display: grid;
+      grid-template-columns: .85fr 1.15fr;
+      gap: 50px;
+      align-items: center
+    }
+
+    @media(max-width:880px) {
+      .about-grid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .about-photo {
+      aspect-ratio: 1;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      position: relative;
+      box-shadow: 0 30px 70px -34px rgba(0, 0, 0, .7)
+    }
+
+    .about-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 55% 30%
+    }
+
+    .about-body p {
+      font-size: 17.5px;
+      line-height: 1.62;
+      color: var(--ink-soft);
+      margin-bottom: 18px
+    }
+
+    .about-body p .hl {
+      color: var(--ink);
+      font-weight: 700
+    }
+
+    .about-stack {
+      display: flex;
+      gap: 9px;
+      flex-wrap: wrap;
+      margin-top: 26px
+    }
+
+    .about-stack .tag {
+      font-size: 12px;
+      padding: 8px 13px
+    }
+
+    /* ============ FOOTER ============ */
+    footer {
+      border-top: 1px solid var(--line);
+      margin-top: 60px;
+      padding: 54px 0 40px
+    }
+
+    .foot-grid {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap
+    }
+
+    .foot-big {
+      font-family: var(--font-d);
+      font-weight: 700;
+      font-size: clamp(28px, 4vw, 44px);
+      letter-spacing: -.03em
+    }
+
+    .foot-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap
+    }
+
+    .foot-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink-soft);
+      border: 1px solid var(--line);
+      padding: 11px 17px;
+      border-radius: 99px;
+      transition: .25s
+    }
+
+    .foot-links a:hover {
+      color: var(--ink);
+      background: rgba(255, 255, 255, .06);
+      transform: translateY(-2px)
+    }
+
+    .foot-bottom {
+      margin-top: 40px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      font-family: var(--font-m);
+      font-size: 12px;
+      color: var(--ink-dim)
+    }
+
+    /* ============ REVEAL ============ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .8s cubic-bezier(.2, .7, .2, 1), transform .8s cubic-bezier(.2, .7, .2, 1)
+    }
+
+    .reveal.in {
+      opacity: 1;
+      transform: none
+    }
+
+    .reveal[data-d="1"] {
+      transition-delay: .08s
+    }
+
+    .reveal[data-d="2"] {
+      transition-delay: .16s
+    }
+
+    .reveal[data-d="3"] {
+      transition-delay: .24s
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+      .reveal {
+        opacity: 1;
+        transform: none
+      }
+
+      .aurora .blob {
+        animation: none
+      }
+
+      .route-path {
+        animation: none;
+        stroke-dashoffset: 0
+      }
+    }
+
+    /* tweaks mount */
+    #tweaks-root {
+      position: fixed;
+      z-index: 90
+    }
+  </style>
+</head>
+
+<body>
+  <div class="aurora" aria-hidden="true">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- NAV -->
+  <header class="nav" id="nav">
+    <a class="brand" href="#top"><span class="mark">JM</span> James Mowat</a>
+    <nav class="nav-links">
+      <a href="#strava">Strava</a>
+      <a href="#projects">Projects</a>
+      <a href="#about">About</a>
+      <a class="nav-cta" href="https://live.garmin.com/mowat" target="_blank" rel="noopener">Live activity →</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero wrap" id="top">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <div class="eyebrow reveal"><span class="dot"></span> Developer · Cyclist · Aotearoa NZ</div>
+        <h1 class="name reveal" data-d="1">James<br><span class="grad">Mowat</span></h1>
+        <p class="tagline reveal" data-d="2">Software developer who <em>thinks his VO₂ max is higher than it is.</em>
+        </p>
+        <p class="sub reveal" data-d="2">I build things on the web during the week and chase Strava segments on the
+          weekend. Sometimes I do both. Usually I lose the segment.</p>
+        <div class="cta-row reveal" data-d="3">
+          <a class="btn btn-primary" href="#strava">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M15.4 1l-5.6 11h3.3L15.4 7l2.3 5h3.3L15.4 1zM9.8 12l-1.7 3.3L6.5 12H3.2l4.9 11 4.9-11H9.8z" />
+            </svg>
+            View my Strava
+          </a>
+          <a class="btn btn-ghost" href="#projects">See my work</a>
+        </div>
+        <div class="chips reveal" data-d="3">
+          <span class="chip"><span class="k">FTP</span> <b>320W</b></span>
+          <span class="chip"><span class="k">"VO₂ max"</span> <b>73 🫣</b></span>
+          <span class="chip"><span class="k">Complaints / week</span> <b>∞</b></span>
+        </div>
+      </div>
+      <div class="hero-photo reveal" data-d="2">
+        <img src="assets/james.jpg" alt="James Mowat on a gravel climb in cycling kit" />
+        <span class="photo-tag">📍 somewhere up a gravel climb · NZ</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STRAVA -->
+  <section class="sec wrap" id="strava">
+    <div class="strava-grid">
+      <div class="strava-copy reveal">
+        <div class="sec-kicker">On the move</div>
+        <h2 class="sec-title">Always<br>somewhere<br>out riding.</h2>
+        <p class="sec-desc">Runs, rides, the occasional regrettable hill-rep session — it all ends up on Strava. If the
+          kudos are flowing, the legs are usually suffering. Follow along and watch the data tell on me in real time.
+        </p>
+        <div class="strava-meta">
+          <div class="metric"><span class="v" id="m-km">8,420 km</span><span class="l">This year</span></div>
+          <div class="metric"><span class="v" id="m-elev">112,300 m</span><span class="l">Climbed</span></div>
+          <div class="metric"><span class="v" id="m-count">312</span><span class="l">Activities</span></div>
+        </div>
+        <a class="btn btn-primary" href="https://www.strava.com/" target="_blank" rel="noopener"
+          style="align-self:flex-start">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M15.4 1l-5.6 11h3.3L15.4 7l2.3 5h3.3L15.4 1zM9.8 12l-1.7 3.3L6.5 12H3.2l4.9 11 4.9-11H9.8z" />
+          </svg>
+          View my live activity
+        </a>
+      </div>
+
+      <!-- LIVE CARD -->
+      <div class="live reveal" data-d="1">
+        <div class="live-top">
+          <div class="live-ath">
+            <span class="live-av"><img src="assets/james.jpg" alt="" /></span>
+            <div>
+              <div class="nm">James Mowat</div>
+              <div class="sub2">@James Mowat · Who let 3 seat cook?</div>
+            </div>
+          </div>
+          <span class="live-badge" id="live-badge"><span class="rec"></span> LIVE</span>
+        </div>
+        <div class="live-title"><span class="ico"><svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M15.4 1l-5.6 11h3.3L15.4 7l2.3 5h3.3L15.4 1zM9.8 12l-1.7 3.3L6.5 12H3.2l4.9 11 4.9-11H9.8z" />
+            </svg></span> <span id="live-name">Morning Gravel Hammer</span></div>
+        <div class="live-where" id="live-where">Waterfront · Auckland City</div>
+        <div class="live-map">
+          <svg viewBox="0 0 400 120" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="routeGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="var(--g3)" />
+                <stop offset="1" stop-color="var(--g2)" />
+              </linearGradient>
+            </defs>
+            <path class="route-path"
+              d="M14,96 C50,70 60,40 96,46 C140,53 150,98 196,86 C238,75 232,28 276,30 C320,32 318,80 386,58" />
+            <circle class="route-dot" id="routeDot" cx="386" cy="58" r="5" />
+          </svg>
+        </div>
+        <div class="live-stats">
+          <div class="lstat">
+            <div class="v" id="ls-dist">0.0<span style="font-size:12px"> km</span></div>
+            <div class="l">Distance</div>
+          </div>
+          <div class="lstat">
+            <div class="v" id="ls-time">0:00</div>
+            <div class="l">Moving</div>
+          </div>
+          <div class="lstat">
+            <div class="v" id="ls-speed">0.0</div>
+            <div class="l">km/h</div>
+          </div>
+          <div class="lstat">
+            <div class="v" id="ls-hr">—</div>
+            <div class="l">bpm</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="sec wrap" id="projects">
+    <div class="sec-head">
+      <div class="reveal">
+        <div class="sec-kicker">Selected work</div>
+        <h2 class="sec-title">Recent projects</h2>
+      </div>
+      <p class="sec-desc reveal" data-d="1">Three things I've shipped lately. Each one started as a "this should only
+        take a weekend" — none of them did.</p>
+    </div>
+    <div class="projects-grid">
+      <a class="proj reveal" data-d="1" href="#" target="_blank" rel="noopener">
+        <div class="proj-main">
+          <div class="proj-top"><span class="proj-idx">01</span><span class="proj-arrow"><svg viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M7 17L17 7M17 7H8M17 7v9" />
+              </svg></span></div>
+          <div class="proj-name" style="margin:14px 0 10px">Rowlyze</div>
+          <p class="proj-desc">A rowing analytics platform for coaches and athletes.</p>
+        </div>
+        <div class="proj-tags"><span class="tag">React</span><span class="tag">TypeScript</span><span
+            class="tag">Node</span><span class="tag">Postgres</span></div>
+      </a>
+      <a class="proj reveal" data-d="2" href="#" target="_blank" rel="noopener">
+        <div class="proj-main">
+          <div class="proj-top"><span class="proj-idx">02</span><span class="proj-arrow"><svg viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M7 17L17 7M17 7H8M17 7v9" />
+              </svg></span></div>
+          <div class="proj-name" style="margin:14px 0 10px">Trains</div>
+          <p class="proj-desc">Live departures, delays and platform changes for NZ rail in one glanceable board. Because
+            the official app shouldn't make you miss the 8:07 to the city.</p>
+        </div>
+        <div class="proj-tags"><span class="tag">Next.js</span><span class="tag">GTFS</span><span
+            class="tag">Mapbox</span><span class="tag">PWA</span></div>
+      </a>
+      <a class="proj reveal" data-d="3" href="#" target="_blank" rel="noopener">
+        <div class="proj-main">
+          <div class="proj-top"><span class="proj-idx">03</span><span class="proj-arrow"><svg viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M7 17L17 7M17 7H8M17 7v9" />
+              </svg></span></div>
+          <div class="proj-name" style="margin:14px 0 10px">NZEP</div>
+          <p class="proj-desc">A private equity investor dashboard for managing investments in New Zealand.</p>
+        </div>
+        <div class="proj-tags"><span class="tag">SvelteKit</span><span class="tag">D3</span><span
+            class="tag">Cloudflare</span></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="sec wrap" id="about">
+    <div class="about-grid">
+      <div class="about-photo reveal">
+        <img src="assets/james.jpg" alt="James Mowat" />
+      </div>
+      <div class="about-body reveal" data-d="1">
+        <div class="sec-kicker">About me</div>
+        <h2 class="sec-title" style="margin-bottom:24px">Hi, I'm James.</h2>
+        <p>I'm a <span class="hl">software developer</span> based in Aotearoa New Zealand. I like building products that
+          feel fast, look honest, and don't make people think — the kind of software you forget you're using because it
+          just gets out of the way.</p>
+        <p>Off the keyboard you'll find me on two wheels, optimising a power curve I've decided is more impressive than
+          it actually is. <span class="hl">Garmin on the wrist, Strava on the phone</span>, and a suspiciously specific
+          opinion about gravel tyre pressure.</p>
+        <p>I care about the small details — the loading state, the empty state, the 2am bug — and I think good
+          engineering and good design are the same discipline wearing different shoes.</p>
+        <div class="about-stack">
+          <span class="tag">TypeScript</span><span class="tag">React</span><span class="tag">Node</span><span
+            class="tag">Go</span><span class="tag">Postgres</span><span class="tag">Garmin Connect API</span><span
+            class="tag">Figma</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="wrap">
+      <div class="foot-grid">
+        <div class="foot-big reveal">Let's build<br>something quick.</div>
+        <div class="foot-links reveal" data-d="1">
+          <a href="https://www.strava.com/athletes/85575277" target="_blank" rel="noopener">Strava ↗</a>
+          <a href="https://github.com/jfmow" target="_blank" rel="noopener">GitHub ↗</a>
+          <a href="mailto:hi@jamesmowat.com">Email ↗</a>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <span>© 2026 James Mowat · Made between intervals</span>
+        <span>Auckland, NZ</span>
+      </div>
+    </div>
+  </footer>
+
+  <div id="tweaks-root"></div>
+
+  <template id="__bundler_thumbnail" data-bg-color="#120a08">
+    <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="tg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#fc4c02" />
+          <stop offset="1" stop-color="#ff0a54" />
+        </linearGradient>
+      </defs>
+      <rect width="1200" height="800" fill="#120a08" />
+      <path d="M360,520 C470,360 520,440 620,400 C720,360 700,260 840,300" fill="none" stroke="url(#tg)"
+        stroke-width="22" stroke-linecap="round" />
+      <circle cx="840" cy="300" r="20" fill="#fff" />
+      <text x="600" y="640" font-family="Space Grotesk, system-ui, sans-serif" font-size="120" font-weight="700"
+        fill="url(#tg)" text-anchor="middle" letter-spacing="-4">JM</text>
+    </svg>
+  </template>
+
+  <script>
+    /* ---- nav scroll state ---- */
+    const nav = document.getElementById('nav');
+    addEventListener('scroll', () => { nav.classList.toggle('scrolled', scrollY > 30) }, { passive: true });
+
+    /* ---- scroll reveal ---- */
+    const io = new IntersectionObserver((es) => { es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target) } }) }, { threshold: .14 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    /* ============================================================
+       LIVE STRAVA DATA
+       ------------------------------------------------------------
+       Leave STRAVA_ENDPOINT = '' to keep the animated demo feed.
+       To go LIVE: deploy the tiny proxy (see chat) and paste its
+       URL below. The proxy holds your secret + refresh token and
+       returns JSON like:
+       { name, ytd_km, ytd_elev, count,
+         latest:{ name, where, dist_km, moving_s, speed, hr } }
+       ============================================================ */
+    const STRAVA_ENDPOINT = 'https://empty-breeze-b60c.james1mowat.workers.dev/';
+
+    const fmtNum = (n) => n.toLocaleString('en-NZ');
+
+    async function loadStrava() {
+      if (!STRAVA_ENDPOINT) return false;
+      try {
+        const r = await fetch(STRAVA_ENDPOINT, { cache: 'no-store' });
+        if (!r.ok) throw new Error(r.status);
+        const d = await r.json();
+        if (d.name) document.querySelector('.live-ath .nm').textContent = d.name;
+        if (d.ytd_km != null) document.getElementById('m-km').textContent = fmtNum(d.ytd_km) + ' km';
+        if (d.ytd_elev != null) document.getElementById('m-elev').textContent = fmtNum(d.ytd_elev) + ' m';
+        if (d.count != null) document.getElementById('m-count').textContent = fmtNum(d.count);
+        const a = d.latest;
+        if (a) {
+          document.getElementById('live-name').textContent = a.name || 'Latest activity';
+          if (a.where) document.getElementById('live-where').textContent = a.where;
+          document.getElementById('live-badge').innerHTML = '<span class="rec"></span> LATEST';
+          const m = Math.floor((a.moving_s || 0) / 60), ss = String((a.moving_s || 0) % 60).padStart(2, '0');
+          document.getElementById('ls-dist').innerHTML = (a.dist_km ?? '—') + '<span style="font-size:12px"> km</span>';
+          document.getElementById('ls-time').textContent = m + ':' + ss;
+          document.getElementById('ls-speed').textContent = a.speed != null ? Number(a.speed).toFixed(1) : '—';
+          document.getElementById('ls-hr').textContent = a.hr ?? '—';
+        }
+        return !!a; // if we got a real activity, skip the demo ticker; else let the card animate
+      } catch (e) { console.warn('Strava proxy unavailable, using demo feed:', e); return false; }
+    }
+
+    /* ---- live strava feed (demo ticker, used until a proxy is wired) ---- */
+    (async function () {
+      if (await loadStrava()) return;
+      let dist = 12.4, secs = 2520, hr = 148, started = false;
+      const $d = document.getElementById('ls-dist'), $t = document.getElementById('ls-time'),
+        $s = document.getElementById('ls-speed'), $h = document.getElementById('ls-hr'),
+        dot = document.getElementById('routeDot');
+      function fmt(s) { const m = Math.floor(s / 60), ss = String(Math.floor(s % 60)).padStart(2, '0'); return m + ':' + ss }
+      function tick() {
+        const spd = 24 + Math.sin(Date.now() / 3200) * 9 + Math.random() * 2; // km/h fluctuating
+        dist += spd / 3600;            // per second
+        secs += 1;
+        hr = Math.round(146 + Math.sin(Date.now() / 4200) * 16 + Math.random() * 4);
+        $d.innerHTML = dist.toFixed(1) + '<span style="font-size:12px"> km</span>';
+        $t.textContent = fmt(secs);
+        $s.textContent = spd.toFixed(1);
+        $h.textContent = hr;
+        // nudge the live dot along subtly
+        const jx = 386 + Math.sin(Date.now() / 900) * 2, jy = 58 + Math.cos(Date.now() / 700) * 2;
+        dot.setAttribute('cx', jx); dot.setAttribute('cy', jy);
+      }
+      // start counting when card is visible
+      const card = document.querySelector('.live');
+      const cio = new IntersectionObserver((es) => { es.forEach(e => { if (e.isIntersecting && !started) { started = true; tick(); setInterval(tick, 1000) } }) }, { threshold: .3 });
+      cio.observe(card);
+    })();
+  </script>
+
+  <!-- Tweaks (React island) -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"
+    integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L"
+    crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"
+    integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm"
+    crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"
+    integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y"
+    crossorigin="anonymous"></script>
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <script type="text/babel" src="tweaks-app.jsx"></script>
+</body>
+
+</html>
