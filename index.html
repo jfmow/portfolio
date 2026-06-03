@@ -34,6 +34,7 @@
       --font-b: "Manrope", system-ui, sans-serif;
       --font-m: "JetBrains Mono", ui-monospace, monospace;
       --maxw: 1180px;
+      overflow-x: hidden
     }
 
     /* palette variants (driven by Tweaks) */
@@ -606,6 +607,16 @@
       .strava-grid {
         grid-template-columns: 1fr
       }
+
+      .sec {
+        padding: 0 1em;
+        padding-bottom: 1em
+      }
+
+      .hero {
+        padding: 0 1em;
+        padding-bottom: 1em;
+      }
     }
 
     .strava-copy {
@@ -676,7 +687,8 @@
       border-radius: 50%;
       background: var(--grad);
       overflow: hidden;
-      border: 2px solid rgba(255, 255, 255, .2)
+      border: 2px solid rgba(255, 255, 255, .2);
+      flex-shrink: 0;
     }
 
     .live-av img {
